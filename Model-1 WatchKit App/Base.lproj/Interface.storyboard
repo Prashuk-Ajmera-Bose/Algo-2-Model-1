@@ -1,15 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11134" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14865.1" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11055"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14819.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14642"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModuleProvider="target"/>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Model_1_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <button width="1" alignment="left" title="IMU" id="Nln-yA-gmh">
+                            <connections>
+                                <action selector="getImu" destination="AgC-eL-Hgc" id="kqM-m6-bgR"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="Stop" id="5pf-t1-Ame">
+                            <connections>
+                                <action selector="stopMotion" destination="AgC-eL-Hgc" id="j9a-5v-ckQ"/>
+                            </connections>
+                        </button>
+                    </items>
+                </controller>
             </objects>
+            <point key="canvasLocation" x="32" y="122"/>
         </scene>
     </scenes>
 </document>
