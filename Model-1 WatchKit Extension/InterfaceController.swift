@@ -30,7 +30,7 @@ class InterfaceController: WKInterfaceController {
     
     var currentTime = Date()
     
-    let armLength = 10
+    let armLength = 10.0
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -75,7 +75,7 @@ class InterfaceController: WKInterfaceController {
                 self!.userInitialVelocityX = self!.userVelocityY
                 self!.userInitialVelocityZ = self!.userVelocityZ
                 
-                print(data.userAcceleration, data.gravity)
+                print(data.userAcceleration.x)
                 
 //                print(self!.userDisplacementX, self!.userDisplacementY, self!.userDisplacementZ)
 //                self!.manager.stopDeviceMotionUpdates()
@@ -99,7 +99,11 @@ class InterfaceController: WKInterfaceController {
         
         // Net Distance
         let finalDist = (distX*distX + distY*distY + distZ*distZ).squareRoot()
-        print(finalDist)
+        
+        // Angle calculation
+        let angleX = distX / armLength
+        let angleY = distY / armLength
+        let angleZ = distZ / armLength
         
         // Data Reset
         userDisplacementX = 0.0
