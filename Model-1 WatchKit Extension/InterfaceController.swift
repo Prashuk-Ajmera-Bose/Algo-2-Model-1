@@ -13,36 +13,37 @@ import os
 
 class InterfaceController: WKInterfaceController {
 
-    // Variables
     let manager = CMMotionManager()
     
-    var userDisplacementX = 0.0
-    var userDisplacementY = 0.0
-    var userDisplacementZ = 0.0
+    var userDisplacementX: Double = 0.00
+    var userDisplacementY: Double = 0.00
+    var userDisplacementZ: Double = 0.00
     
-    var userInitialVelocityX = 0.0
-    var userInitialVelocityY = 0.0
-    var userInitialVelocityZ = 0.0
-    
-    var userVelocityX = 0.0
-    var userVelocityY = 0.0
-    var userVelocityZ = 0.0
+    var userInitialVelocityX: Double = 0.00
+    var userInitialVelocityY: Double = 0.00
+    var userInitialVelocityZ: Double = 0.00
+
+    var userAccelerationX: Double = 0.00
     
     var currentTime = Date()
     
-    let armLength = 10.0
+    let armLength: Double = 10.00 // assume
+    
+    var totalTime = 0.00
+    
+//    let tau = 0.75
+//    let dt = 60
+//    let alpha = tau / (self.tau + self.dt)
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
     }
     
     override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
         super.willActivate()
     }
     
     override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
     
@@ -50,36 +51,39 @@ class InterfaceController: WKInterfaceController {
         if manager.isDeviceMotionAvailable {
             manager.deviceMotionUpdateInterval = 1 / 60
             manager.startDeviceMotionUpdates(to: .main) {
+                
                 [weak self] (data, error) in
-
                 guard let data = data, error == nil else {
                     return
                 }
                 
-                // v = u + at
+                
+                let deltaTime = Date().timeIntervalSince(self!.currentTime)
+                self!.totalTime = self!.totalTime + deltaTime
+                                
                 // s = ut + 1/2at^2
-                
-                // User velocity at time t
-                self!.userVelocityX = self!.userInitialVelocityX + data.userAcceleration.x * 10.0 * Date().timeIntervalSince(self!.currentTime)
-                self!.userVelocityY = self!.userInitialVelocityY + data.userAcceleration.y * 10.0 * Date().timeIntervalSince(self!.currentTime)
-                self!.userVelocityZ = self!.userInitialVelocityZ + data.userAcceleration.z * 10.0 * Date().timeIntervalSince(self!.currentTime)
-                
-                // User distance at time t
-                self!.userDisplacementX = ((self!.userVelocityX * Date().timeIntervalSince(self!.currentTime)) + (self!.userDisplacementX + data.userAcceleration.x * 10.0 * Date().timeIntervalSince(self!.currentTime) * Date().timeIntervalSince(self!.currentTime) / 2.0))
-                self!.userDisplacementY = ((self!.userVelocityY * Date().timeIntervalSince(self!.currentTime)) + (self!.userDisplacementY + data.userAcceleration.y * 10.0 * Date().timeIntervalSince(self!.currentTime) * Date().timeIntervalSince(self!.currentTime) / 2.0))
-                self!.userDisplacementZ = ((self!.userVelocityZ * Date().timeIntervalSince(self!.currentTime)) + (self!.userDisplacementZ + data.userAcceleration.z * 10.0 * Date().timeIntervalSince(self!.currentTime) * Date().timeIntervalSince(self!.currentTime) / 2.0))
-                
+                // v = u + at
+                                
+                // User displacements after deltaTime
+                self!.userDisplacementX = (self!.userDisplacementX + ((self!.userInitialVelocityX * deltaTime) + (data.userAcceleration.x * 9.8 * deltaTime * deltaTime / 2)))
+                self!.userDisplacementY = (self!.userDisplacementY + ((self!.userInitialVelocityY * deltaTime) + (data.userAcceleration.y * 9.8 * deltaTime * deltaTime / 2)))
+                self!.userDisplacementZ = (self!.userDisplacementZ + ((self!.userInitialVelocityZ * deltaTime) + (data.userAcceleration.z * 9.8 * deltaTime * deltaTime / 2)))
+                                
+                // Replacing initial velocities with final velocities for the next step
+                self!.userInitialVelocityX = self!.userInitialVelocityX + data.userAcceleration.x * 9.8 * deltaTime
+                self!.userInitialVelocityY = self!.userInitialVelocityY + data.userAcceleration.y * 9.8 * deltaTime
+                self!.userInitialVelocityZ = self!.userInitialVelocityZ + data.userAcceleration.z * 9.8 * deltaTime
+                                
                 self!.currentTime = Date()
                 
-                self!.userInitialVelocityX = self!.userVelocityX
-                self!.userInitialVelocityX = self!.userVelocityY
-                self!.userInitialVelocityZ = self!.userVelocityZ
-                
-                print(data.userAcceleration.x)
-                
-//                print(self!.userDisplacementX, self!.userDisplacementY, self!.userDisplacementZ)
-//                self!.manager.stopDeviceMotionUpdates()
-            }
+//                if (data.gravity.x > 0.85) {
+//                    self!.manager.stopDeviceMotionUpdates()
+//                    self!.deviceMotionData()
+//                }
+                                
+                print("\(self!.userDisplacementX)   \(self!.userDisplacementY)  \(self!.userDisplacementZ)  \(self!.totalTime)")
+
+            } 
         }
     }
     
@@ -95,7 +99,7 @@ class InterfaceController: WKInterfaceController {
         let distY = userDisplacementY
         let distZ = userDisplacementZ
         
-        print(distX, distY, distZ)
+        print("FX= \(distX), FY= \(distY), FZ= \(distZ)")
         
         // Net Distance
         let finalDist = (distX*distX + distY*distY + distZ*distZ).squareRoot()
@@ -105,18 +109,16 @@ class InterfaceController: WKInterfaceController {
         let angleY = distY / armLength
         let angleZ = distZ / armLength
         
+        //print(angleX, angleY, angleZ)
+        
         // Data Reset
-        userDisplacementX = 0.0
-        userDisplacementY = 0.0
-        userDisplacementZ = 0.0
+        userDisplacementX = 0.00
+        userDisplacementY = 0.00
+        userDisplacementZ = 0.00
         
-        userInitialVelocityX = 0.0
-        userInitialVelocityY = 0.0
-        userInitialVelocityZ = 0.0
-        
-        userVelocityX = 0.0
-        userVelocityY = 0.0
-        userVelocityZ = 0.0
+        userInitialVelocityX = 0.00
+        userInitialVelocityY = 0.00
+        userInitialVelocityZ = 0.00
     }
     
 }
@@ -124,8 +126,11 @@ class InterfaceController: WKInterfaceController {
 
 extension Double
 {
-    func truncate(places : Int) -> Double
-    {
-        return Double(floor(pow(10.0, Double(places)) * self) / pow(10.0, Double(places)))
-    }
+//    func truncate(places: Int) -> Double {
+//        return Double(floor(pow(10.0, Double(places)) * self) / pow(10.0, Double(places)))
+//    }
+//
+//    func roundTo(places: Int) -> Double {
+//        return Double((10 * places * self) / 1000)
+//    }
 }
