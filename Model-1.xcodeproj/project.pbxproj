@@ -15,6 +15,9 @@
 		3601C8D12327F6E90003822B /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3601C8D02327F6E90003822B /* ExtensionDelegate.swift */; };
 		3601C8D32327F6E90003822B /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3601C8D22327F6E90003822B /* ComplicationController.swift */; };
 		3601C8D52327F6EA0003822B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3601C8D42327F6EA0003822B /* Assets.xcassets */; };
+		3658F44C23325C7600FD61BA /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3658F44B23325C7600FD61BA /* Extension.swift */; };
+		366D04B723300640000CC64E /* KalmanFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366D04B623300640000CC64E /* KalmanFilterType.swift */; };
+		366D04B923300668000CC64E /* KalmanFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366D04B823300668000CC64E /* KalmanFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +74,9 @@
 		3601C8D22327F6E90003822B /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		3601C8D42327F6EA0003822B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3601C8D62327F6EA0003822B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3658F44B23325C7600FD61BA /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		366D04B623300640000CC64E /* KalmanFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KalmanFilterType.swift; sourceTree = "<group>"; };
+		366D04B823300668000CC64E /* KalmanFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KalmanFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,13 +122,24 @@
 		3601C8CD2327F6E90003822B /* Model-1 WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				366D04B523300623000CC64E /* Kalman Filter */,
 				3601C8CE2327F6E90003822B /* InterfaceController.swift */,
 				3601C8D02327F6E90003822B /* ExtensionDelegate.swift */,
 				3601C8D22327F6E90003822B /* ComplicationController.swift */,
+				3658F44B23325C7600FD61BA /* Extension.swift */,
 				3601C8D42327F6EA0003822B /* Assets.xcassets */,
 				3601C8D62327F6EA0003822B /* Info.plist */,
 			);
 			path = "Model-1 WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		366D04B523300623000CC64E /* Kalman Filter */ = {
+			isa = PBXGroup;
+			children = (
+				366D04B623300640000CC64E /* KalmanFilterType.swift */,
+				366D04B823300668000CC64E /* KalmanFilter.swift */,
+			);
+			path = "Kalman Filter";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +270,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3601C8D12327F6E90003822B /* ExtensionDelegate.swift in Sources */,
+				366D04B923300668000CC64E /* KalmanFilter.swift in Sources */,
+				366D04B723300640000CC64E /* KalmanFilterType.swift in Sources */,
+				3658F44C23325C7600FD61BA /* Extension.swift in Sources */,
 				3601C8CF2327F6E90003822B /* InterfaceController.swift in Sources */,
 				3601C8D32327F6E90003822B /* ComplicationController.swift in Sources */,
 			);
