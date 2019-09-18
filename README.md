@@ -1,2 +1,2 @@
 # Algo-2-Model-1
-Collecting sample data and passing it to SVM
+Kalman Filter implemented on sample data

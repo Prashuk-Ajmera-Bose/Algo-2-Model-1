@@ -8,16 +8,24 @@
 
 import Foundation
 
+// MARK: protocol KalmanInput
 public protocol KalmanInput {
+    // A -> A^T
     var transposed: Self { get }
+    
+    // A -> A^-1
     var inversed: Self { get }
+    
+    // A -> 1-A
     var additionToUnit: Self { get }
     
+    // Mathematics functions
     static func + (lhs: Self, rhs: Self) -> Self
     static func - (lhs: Self, rhs: Self) -> Self
     static func * (lhs: Self, rhs: Self) -> Self
 }
 
+// MARK: protocol KalmanFilterType
 public protocol KalmanFilterType {
     associatedtype Input: KalmanInput
     
